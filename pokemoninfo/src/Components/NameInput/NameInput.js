@@ -1,14 +1,15 @@
 import './NameInput.css';
 import axios from 'axios';
-import { useState } from "react";
+import { useState } from 'react';
 
 function NameInput() {
-  const [pokeHabitat, changeHabitat] = useState("...");
-  const [pokeName, changeName] = useState("");
-  const [displayName, changeDisplayName] = useState("Your Pokemon")
-  const [pokeType, changePokeType] = useState("");
-  const [pokeType2, changePokeType2] = useState("");
-  const [typeCountContent, changeTypeCountContent] = useState("");
+  const [pokeHabitat, changeHabitat] = useState('...');
+  const [pokeName, changeName] = useState('');
+  const [displayName, changeDisplayName] = useState('Your Pokemon');
+  const [pokeType, changePokeType] = useState('');
+  const [pokeType2, changePokeType2] = useState('');
+  const [typeCountContent, changeTypeCountContent] = useState('');
+  const [pokePhoto, changePokePhoto] = useState('');
 
   const pokeapiUrl = `https://pokeapi.co/api/v2/pokemon/${pokeName}`;
 
@@ -18,7 +19,6 @@ function NameInput() {
       // look at object on API to discover format
       const pokeInfo = response.data.species.url;
       return pokeInfo;
-
     } catch (err) {
       console.error(err);
     }
@@ -30,9 +30,18 @@ function NameInput() {
       const response = await axios.get(url);
 
       const habitat = response.data.habitat.name;
-      console.log(habitat);
       return habitat;
-      
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
+  const sendGetRequestSprite = async () => {
+    try {
+      const response = await axios.get(pokeapiUrl);
+
+      const pokePhoto = response.data.sprites.front_default;
+      return pokePhoto;
     } catch (err) {
       console.error(err);
     }
@@ -47,7 +56,7 @@ function NameInput() {
     } catch (err) {
       console.error(err);
     }
-  }
+  };
 
   const sendGetRequestType2 = async () => {
     try {
@@ -55,16 +64,16 @@ function NameInput() {
       if (response.data.types[1]) {
         return response.data.types[1].type.name;
       }
-      return "";
+      return '';
     } catch (err) {
       console.error(err);
     }
-  }
-  
+  };
+
   const handleNameChange = (e) => {
     changeName(e.target.value);
-  }
-  
+  };
+
   const handleClick = async (e) => {
     e.preventDefault();
 
@@ -73,6 +82,7 @@ function NameInput() {
       const pokeHabitat = await sendGetRequestHabitat();
       const pokeType = await sendGetRequestType();
       const pokeType2 = await sendGetRequestType2();
+      const pokePhoto = await sendGetRequestSprite();
 
       const soloType = `${pokeType}`;
       const dualType = `${pokeType} / ${pokeType2}`;
@@ -81,41 +91,38 @@ function NameInput() {
         changeTypeCountContent(dualType);
       } else {
         changeTypeCountContent(soloType);
-      } 
+      }
 
       changeHabitat(pokeHabitat);
       changeDisplayName(pokeName);
       changePokeType(pokeType);
       changePokeType2(pokeType2);
+      changePokePhoto(pokePhoto);
     } catch (err) {
       console.error(err);
     }
-  }
+  };
 
   return (
     <div>
       <form>
         <label>
           Pokemon Name:
-          <input 
+          <input
             type="text"
             name="name"
-            value={pokeName} 
+            value={pokeName}
             onChange={handleNameChange}
           />
         </label>
-        <input 
-          type="submit" 
-          value="Submit" 
-          onClick={handleClick} 
-        />
+        <input type="submit" value="Submit" onClick={handleClick} />
       </form>
-
+      <img src={pokePhoto} />
       <h2>Type(s): {typeCountContent}</h2>
       <h2>{displayName} mostly lives in the:</h2>
       <h2>{pokeHabitat}</h2>
     </div>
-  )
+  );
 }
 
 export default NameInput;
