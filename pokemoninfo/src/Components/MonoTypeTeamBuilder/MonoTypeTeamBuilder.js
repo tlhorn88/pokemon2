@@ -24,7 +24,38 @@ function MonoTypeTeamBuilder() {
   }, []);
 
   // Uses user's selected option to access an array of all pokemon of a type
-  useEffect(() => {
+  // useEffect(() => {
+  //   if (selectedOption) {
+  //     let object = typeArray.find(o => o.name === selectedOption);
+  //     axios.get(object.url)
+  //       .then(response => {
+  //         function findRandomPokemon() {
+  //           let receivedArrayOfAType = response.data.pokemon;
+  //           let randomNumber = [Math.floor(Math.random() * receivedArrayOfAType.length)];
+  //           let randomPokemon = receivedArrayOfAType[randomNumber].pokemon.name;
+  //           return randomPokemon
+  //         };
+  //         let returnArray = [];
+  //         for (let i = 0; i < 3; i++) {
+  //           returnArray.push(findRandomPokemon())
+  //         }
+
+  //           setUserData(returnArray);
+  //       })
+  //       .catch(error => {
+  //         console.error(error);
+  //       });
+  //   } else {
+  //     setUserData(null);
+  //   }
+  // }, [selectedOption]);
+
+  function handleOptionChange(event) {
+    changeSelectedOption(event.target.value);
+  }
+
+  function handleSubmit(event) {
+    event.preventDefault();
     if (selectedOption) {
       let object = typeArray.find(o => o.name === selectedOption);
       axios.get(object.url)
@@ -48,17 +79,15 @@ function MonoTypeTeamBuilder() {
     } else {
       setUserData(null);
     }
-  }, [selectedOption]);
-
-  function handleOptionChange(event) {
-    changeSelectedOption(event.target.value);
   }
 
   return (
     <div>
       <h2>Select a type:</h2>
 
-      <form>
+      <form
+        onSubmit={handleSubmit}  
+      >
         <select 
           value={selectedOption} 
           onChange={handleOptionChange}
