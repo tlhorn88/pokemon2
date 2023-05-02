@@ -1,0 +1,19 @@
+.cardContainer {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+  place-items: center;
+  padding-bottom: 20px;
+  margin-top: -40px;
+  min-height: 70vh;
+  background-color: var(color1);
+  row-gap: 0;
+}
+
+ul {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+  place-items: center;
+  padding-right: 10px;
+}

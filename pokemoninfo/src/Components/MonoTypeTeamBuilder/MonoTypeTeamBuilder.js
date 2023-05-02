@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import Card from '../Card/Card';
 
 function MonoTypeTeamBuilder() {
   const [typeArray, changeTypeArray] = useState([]);
@@ -70,10 +71,13 @@ function MonoTypeTeamBuilder() {
               " Type 2: " + 
               (element.types[1] ? element.types[1]?.type.name : "N/A")
               ));
+              console.log(arrayOfRandoms[0]);
+              console.log(arrayOfRandoms[0].types[0].type.name)
               changeRandomPokemonArray(arrayOfRandoms.map(element => ({
                 name: element.name,
                 type1: element.types[0].type.name,
-                type2: element.types[1] ? element.types[1]?.type.name : "N/A"
+                type2: element.types[1] ? element.types[1]?.type.name : "N/A",
+                spriteUrl: element.sprites.front_default
               })));
           })
 
@@ -84,6 +88,8 @@ function MonoTypeTeamBuilder() {
       changeRandomPokemonArray(null);
     }
   }
+
+console.log(randomPokemonArray);
 
   return (
     <div>
@@ -120,9 +126,24 @@ function MonoTypeTeamBuilder() {
           <p>Name: {randomPokemonArray[0].name}</p>
           <p>Name: {randomPokemonArray[1].name}</p>
           <p>Name: {randomPokemonArray[2].name}</p>
+          
+          <div className='cardContainer'>
+
+          <ul className="randomTeam">
+                    {randomPokemonArray.map((pokemon) => (
+                        <Card 
+                        name={pokemon.name}
+                        type1={pokemon.type1}
+                        type2={pokemon.type2}
+                        img={pokemon.spriteUrl}
+                        />
+                        ))}
+          </ul>
+
+
+        </div>
         </div>
       )}
-
 
     </div>
   );

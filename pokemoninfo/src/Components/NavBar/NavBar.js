@@ -1,3 +1,4 @@
+import './NavBar.css';
 import { NavLink } from "react-router-dom";
 
 const links = [
@@ -12,7 +13,7 @@ function NavBar() {
       <ul>
         {links.map((link) => {
           return (
-            <li key={link.text}>
+            <li className = "navItem" key={link.text}>
               {/* NavLink as opposed to "a href" to keep entire page from reloading 
               See: https://ibaslogic.com/routing-with-react-router/
               for more information*/}
