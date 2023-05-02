@@ -4,7 +4,7 @@ import axios from 'axios';
 function MonoTypeTeamBuilder() {
   const [typeArray, changeTypeArray] = useState([]);
   const [selectedOption, changeSelectedOption] = useState('');
-  const [userData, setUserData] = useState(null);
+  const [randomPokemonArray, changeRandomPokemonArray] = useState(null);
 
   //Sends a call to PokeAPI and receives a list of pokemon types with their associated urls
   useEffect(() => {
@@ -23,33 +23,6 @@ function MonoTypeTeamBuilder() {
       });
   }, []);
 
-  // Uses user's selected option to access an array of all pokemon of a type
-  // useEffect(() => {
-  //   if (selectedOption) {
-  //     let object = typeArray.find(o => o.name === selectedOption);
-  //     axios.get(object.url)
-  //       .then(response => {
-  //         function findRandomPokemon() {
-  //           let receivedArrayOfAType = response.data.pokemon;
-  //           let randomNumber = [Math.floor(Math.random() * receivedArrayOfAType.length)];
-  //           let randomPokemon = receivedArrayOfAType[randomNumber].pokemon.name;
-  //           return randomPokemon
-  //         };
-  //         let returnArray = [];
-  //         for (let i = 0; i < 3; i++) {
-  //           returnArray.push(findRandomPokemon())
-  //         }
-
-  //           setUserData(returnArray);
-  //       })
-  //       .catch(error => {
-  //         console.error(error);
-  //       });
-  //   } else {
-  //     setUserData(null);
-  //   }
-  // }, [selectedOption]);
-
   function handleOptionChange(event) {
     changeSelectedOption(event.target.value);
   }
@@ -60,24 +33,55 @@ function MonoTypeTeamBuilder() {
       let object = typeArray.find(o => o.name === selectedOption);
       axios.get(object.url)
         .then(response => {
-          function findRandomPokemon() {
-            let receivedArrayOfAType = response.data.pokemon;
-            let randomNumber = [Math.floor(Math.random() * receivedArrayOfAType.length)];
-            let randomPokemon = receivedArrayOfAType[randomNumber].pokemon.name;
-            return randomPokemon
-          };
-          let returnArray = [];
-          for (let i = 0; i < 3; i++) {
-            returnArray.push(findRandomPokemon())
-          }
-
-            setUserData(returnArray);
+          let receivedArrayOfAType = response.data.pokemon;
+          const promises = receivedArrayOfAType.map(async (item) => {
+            const itemResponse = await axios.get(`${item.pokemon.url}`);
+            return itemResponse;
+          })
+          // will not be able to access data if using "return promises"
+          return Promise.all(promises);
         })
+          .then(response => {
+            function findRandomPokemon() {
+              let randomNumber = [Math.floor(Math.random() * response.length)];
+              let randomPokemon = response[randomNumber]
+              return randomPokemon.data;
+            };
+
+            let arrayOfRandoms = [];
+            
+            while (arrayOfRandoms.length < 3) {
+              let tempRandom = findRandomPokemon();
+              if (tempRandom.types.length === 2) {
+                if (!arrayOfRandoms.some(pokemon => pokemon.types[1]?.type.name === tempRandom.types[1]?.type.name)) {
+                  arrayOfRandoms.push(tempRandom);
+                }
+              } else 
+                if (!arrayOfRandoms.some(pokemon => pokemon.types.length === 1 )) {
+                  arrayOfRandoms.push(tempRandom);
+              }
+            }
+
+            arrayOfRandoms.forEach(element => console.log(
+              "Array of Randoms: " + 
+              element.name + 
+              " Type1: " + 
+              element.types[0].type.name + 
+              " Type 2: " + 
+              (element.types[1] ? element.types[1]?.type.name : "N/A")
+              ));
+              changeRandomPokemonArray(arrayOfRandoms.map(element => ({
+                name: element.name,
+                type1: element.types[0].type.name,
+                type2: element.types[1] ? element.types[1]?.type.name : "N/A"
+              })));
+          })
+
         .catch(error => {
           console.error(error);
         });
     } else {
-      setUserData(null);
+      changeRandomPokemonArray(null);
     }
   }
 
@@ -109,14 +113,17 @@ function MonoTypeTeamBuilder() {
       </form>
 
 {/* && operator only displays the following if variable is truthy */}
-      {userData && (
+{/* Later, add a .map function */}
+      {randomPokemonArray && (
         <div>
           <h3>Your New Team:</h3>
-          <p>Name: {userData[0]}</p>
-          <p>Name: {userData[1]}</p>
-          <p>Name: {userData[2]}</p>
+          <p>Name: {randomPokemonArray[0].name}</p>
+          <p>Name: {randomPokemonArray[1].name}</p>
+          <p>Name: {randomPokemonArray[2].name}</p>
         </div>
       )}
+
+
     </div>
   );
 }
