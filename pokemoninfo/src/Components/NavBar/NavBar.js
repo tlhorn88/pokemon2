@@ -3,7 +3,7 @@ import { NavLink } from "react-router-dom";
 const links = [
   { path: '/', text: 'Title' },
   { path: 'nameInput', text: 'NameInput'},
-  { path: 'monoTypeTeamBuilder', text: 'MonoTypeTeamBuilder'}
+  { path: 'monoTypeTeamBuilder', text: 'MonoTypeTeamBuilder'},
 ];
 
 function NavBar() {

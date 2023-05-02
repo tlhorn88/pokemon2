@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 
-function MonoTypeTeamBuilder() {
+function TestBaby() {
   const [typeArray, changeTypeArray] = useState([]);
   const [selectedOption, changeSelectedOption] = useState('');
   const [userData, setUserData] = useState(null);
@@ -92,4 +92,4 @@ function MonoTypeTeamBuilder() {
   );
 }
 
-export default MonoTypeTeamBuilder;
+export default TestBaby;
