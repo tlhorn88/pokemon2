@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import Card from '../Card/Card';
+import './MonoTypeTeamBuilder.css';
 
 function MonoTypeTeamBuilder() {
   const [typeArray, changeTypeArray] = useState([]);
@@ -29,13 +30,23 @@ function MonoTypeTeamBuilder() {
   }
 
   function handleSubmit(event) {
+    // default is to refresh page!!
     event.preventDefault();
     if (selectedOption) {
       let object = typeArray.find(o => o.name === selectedOption);
       axios.get(object.url)
         .then(response => {
           let receivedArrayOfAType = response.data.pokemon;
-          const promises = receivedArrayOfAType.map(async (item) => {
+
+          let cleanedReceivedArrayOfAType = [];
+
+          for (let i = 0; i < receivedArrayOfAType.length; i++) {
+            if (receivedArrayOfAType[i].pokemon.name.includes('-') == false ) {
+              cleanedReceivedArrayOfAType.push(receivedArrayOfAType[i])
+            }
+          }
+
+          const promises = cleanedReceivedArrayOfAType.map(async (item) => {
             const itemResponse = await axios.get(`${item.pokemon.url}`);
             return itemResponse;
           })
@@ -53,6 +64,7 @@ function MonoTypeTeamBuilder() {
             
             while (arrayOfRandoms.length < 3) {
               let tempRandom = findRandomPokemon();
+              console.log("tempBoy ", tempRandom);
               if (tempRandom.types.length === 2) {
                 if (!arrayOfRandoms.some(pokemon => pokemon.types[1]?.type.name === tempRandom.types[1]?.type.name)) {
                   arrayOfRandoms.push(tempRandom);
@@ -62,86 +74,77 @@ function MonoTypeTeamBuilder() {
                   arrayOfRandoms.push(tempRandom);
               }
             }
+              
+            console.log("array of randoms", arrayOfRandoms);
 
-            arrayOfRandoms.forEach(element => console.log(
-              "Array of Randoms: " + 
-              element.name + 
-              " Type1: " + 
-              element.types[0].type.name + 
-              " Type 2: " + 
-              (element.types[1] ? element.types[1]?.type.name : "N/A")
-              ));
-              console.log(arrayOfRandoms[0]);
-              console.log(arrayOfRandoms[0].types[0].type.name)
-              changeRandomPokemonArray(arrayOfRandoms.map(element => ({
+            const promises = arrayOfRandoms.map(async (element) => {
+              const speciesResponse = await axios.get(`${element.species.url}`);
+              const flavorTextEntries = speciesResponse.data.flavor_text_entries;
+              const flavorTextEntry = flavorTextEntries.find(entry => entry.language.name == "en");
+              return {
                 name: element.name,
                 type1: element.types[0].type.name,
+                // checks to see if type2 exists.  if not, type2 = "N/A"
                 type2: element.types[1] ? element.types[1]?.type.name : "N/A",
-                spriteUrl: element.sprites.front_default
-              })));
+                imgUrl: element.sprites.other['official-artwork'].front_default,
+                flavorText: flavorTextEntry?.flavor_text
+              };
+            })
+
+            return Promise.all(promises);
           })
-
-        .catch(error => {
-          console.error(error);
-        });
-    } else {
-      changeRandomPokemonArray(null);
-    }
-  }
-
-console.log(randomPokemonArray);
+          .then(newRandomPokemonArray => {
+            changeRandomPokemonArray(newRandomPokemonArray);
+          })
+          .catch(error => {
+            console.error(error);
+          });
+        } else {
+          changeRandomPokemonArray(null);
+        }
+      }
 
   return (
-    <div>
+    <div className='cardContainer'>
+      <div>
       <h2>Select a type:</h2>
-
-      <form
-        onSubmit={handleSubmit}  
-      >
-        <select 
-          value={selectedOption} 
-          onChange={handleOptionChange}
+        <form
+          onSubmit={handleSubmit}  
         >
-          <option value="">--Select your team type--</option>
-          {typeArray.map(option => (
-            <option 
-              key={option.name} 
-              value={option.name}>{option.name}
-            </option>
-          ))}
-        </select>
-        <input
-          type="submit"
-          value="Submit"
-          // EVENTUALLY, ADD AN ONCLICK SO THAT OPTIONS CAN REFRESH
-          // onClick={handleOptionChange}
-        />
-      </form>
+          <select 
+            value={selectedOption} 
+            onChange={handleOptionChange}
+            className="optionSelect"
+          >
+            <option value="">--Select your team type--</option>
+            {typeArray.map(option => (
+              <option 
+                key={option.name} 
+                value={option.name}>{option.name}
+              </option>
+            ))}
+          </select>
+          <input
+            type="submit"
+            value="Submit"
+          />
+        </form>
+      </div>
 
 {/* && operator only displays the following if variable is truthy */}
-{/* Later, add a .map function */}
       {randomPokemonArray && (
-        <div>
-          <h3>Your New Team:</h3>
-          <p>Name: {randomPokemonArray[0].name}</p>
-          <p>Name: {randomPokemonArray[1].name}</p>
-          <p>Name: {randomPokemonArray[2].name}</p>
-          
-          <div className='cardContainer'>
-
+        <div>          
           <ul className="randomTeam">
                     {randomPokemonArray.map((pokemon) => (
                         <Card 
                         name={pokemon.name}
                         type1={pokemon.type1}
                         type2={pokemon.type2}
-                        img={pokemon.spriteUrl}
+                        img={pokemon.imgUrl}
+                        flavorText={pokemon.flavorText}
                         />
                         ))}
           </ul>
-
-
-        </div>
         </div>
       )}
 

@@ -1,3 +1,11 @@
+.navBar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  background-color: var(--color5);
+}
+
 ul {
   list-style-type: none;
   margin: 0;
@@ -5,15 +13,16 @@ ul {
   overflow: hidden;
 }
 
+
 .navItem {
   float: left;
   display: block;
-  color: white;
   text-align: center;
   padding: 16px;
-  /* text-decoration: none!important; */
+  text-decoration: none;
+  font: var(--font2);
 }
 
 .navItem:hover {
-  background-color: #111111;
+  background-color: var(--color3);
 }

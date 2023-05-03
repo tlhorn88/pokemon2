@@ -2,7 +2,7 @@ import './NavBar.css';
 import { NavLink } from "react-router-dom";
 
 const links = [
-  { path: '/', text: 'Title' },
+  { path: '/', text: 'About' },
   { path: 'nameInput', text: 'NameInput'},
   { path: 'monoTypeTeamBuilder', text: 'MonoTypeTeamBuilder'},
 ];
@@ -13,11 +13,11 @@ function NavBar() {
       <ul>
         {links.map((link) => {
           return (
-            <li className = "navItem" key={link.text}>
+            <li  key={link.text}>
               {/* NavLink as opposed to "a href" to keep entire page from reloading 
               See: https://ibaslogic.com/routing-with-react-router/
               for more information*/}
-              <NavLink to={link.path}>{link.text}</NavLink>
+              <NavLink className="navItem" to={link.path}>{link.text}</NavLink>
             </li>
           )
         })}

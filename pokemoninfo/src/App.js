@@ -1,5 +1,5 @@
 import './App.css';
-import Title from './Components/Title/Title';
+import About from './Components/Title/About';
 import NameInput from './Components/NameInput/NameInput';
 import MonoTypeTeamBuilder from './Components/MonoTypeTeamBuilder/MonoTypeTeamBuilder';
 import NoMatch from './Components/NoMatch/NoMatch';
@@ -14,7 +14,7 @@ function App() {
 
       <Routes>
         <Route path="/" element={<Layout />}>
-          <Route index element={<Title />} />
+          <Route index element={<About />} />
           <Route path='nameInput' element={<NameInput />} />
           <Route path="monoTypeTeamBuilder" element={<MonoTypeTeamBuilder />} />
           <Route path ="*" element={<NoMatch />} />

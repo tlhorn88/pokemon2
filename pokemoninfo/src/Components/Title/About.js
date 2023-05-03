@@ -1,4 +1,4 @@
-function Title() {
+function About() {
   return (
     <div>
       <h1>What does this do?</h1>
@@ -11,4 +11,4 @@ function Title() {
   )
 }
 
-export default Title;
+export default About;
