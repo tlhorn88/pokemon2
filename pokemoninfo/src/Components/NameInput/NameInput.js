@@ -1,14 +1,14 @@
 import './NameInput.css';
 import axios from 'axios';
 import { useState } from 'react';
+import Card from '../Card/Card';
 
 function NameInput() {
-  const [pokeHabitat, changeHabitat] = useState('...');
+  const [pokeHabitat, changeHabitat] = useState('');
   const [pokeName, changeName] = useState('');
   const [displayName, changeDisplayName] = useState('Your Pokemon');
   const [pokeType, changePokeType] = useState('');
   const [pokeType2, changePokeType2] = useState('');
-  const [typeCountContent, changeTypeCountContent] = useState('');
   const [pokePhoto, changePokePhoto] = useState('');
 
   const pokeapiUrl = `https://pokeapi.co/api/v2/pokemon/${pokeName}`;
@@ -40,7 +40,7 @@ function NameInput() {
     try {
       const response = await axios.get(pokeapiUrl);
 
-      const pokePhoto = response.data.sprites.front_default;
+      const pokePhoto = response.data.sprites.other['official-artwork'].front_default;
       return pokePhoto;
     } catch (err) {
       console.error(err);
@@ -70,6 +70,8 @@ function NameInput() {
     }
   };
 
+  const habitatInfo = `Your Pokemon mostly lives in the ${pokeHabitat}!`
+
   const handleNameChange = (e) => {
     changeName(e.target.value);
   };
@@ -84,15 +86,6 @@ function NameInput() {
       const pokeType2 = await sendGetRequestType2();
       const pokePhoto = await sendGetRequestSprite();
 
-      const soloType = `${pokeType}`;
-      const dualType = `${pokeType} / ${pokeType2}`;
-
-      if (pokeType2) {
-        changeTypeCountContent(dualType);
-      } else {
-        changeTypeCountContent(soloType);
-      }
-
       changeHabitat(pokeHabitat);
       changeDisplayName(pokeName);
       changePokeType(pokeType);
@@ -105,22 +98,30 @@ function NameInput() {
 
   return (
     <div>
-      <form>
-        <label>
-          Pokemon Name:
-          <input
-            type="text"
-            name="name"
-            value={pokeName}
-            onChange={handleNameChange}
+
+
+      <div className='cardContainer'>
+
+        <form>
+          <label>
+            Pokemon Name:
+            <input
+              type="text"
+              name="name"
+              value={pokeName}
+              onChange={handleNameChange}
+            />
+          </label>
+          <input type="submit" value="Submit" onClick={handleClick} />
+        </form>
+        <Card 
+          name={pokeName}
+          type1={pokeType}
+          type2={pokeType2}
+          img={pokePhoto}
+          flavorText={habitatInfo}
           />
-        </label>
-        <input type="submit" value="Submit" onClick={handleClick} />
-      </form>
-      <img src={pokePhoto} />
-      <h2>Type(s): {typeCountContent}</h2>
-      <h2>{displayName} mostly lives in the:</h2>
-      <h2>{pokeHabitat}</h2>
+      </div>
     </div>
   );
 }
