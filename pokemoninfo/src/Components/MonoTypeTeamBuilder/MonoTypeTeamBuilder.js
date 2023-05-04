@@ -41,7 +41,7 @@ function MonoTypeTeamBuilder() {
           let cleanedReceivedArrayOfAType = [];
 
           for (let i = 0; i < receivedArrayOfAType.length; i++) {
-            if (receivedArrayOfAType[i].pokemon.name.includes('-') == false ) {
+            if (receivedArrayOfAType[i].pokemon.name.includes('-') === false ) {
               cleanedReceivedArrayOfAType.push(receivedArrayOfAType[i])
             }
           }
@@ -78,7 +78,7 @@ function MonoTypeTeamBuilder() {
             const promises = arrayOfRandoms.map(async (element) => {
               const speciesResponse = await axios.get(`${element.species.url}`);
               const flavorTextEntries = speciesResponse.data.flavor_text_entries;
-              const flavorTextEntry = flavorTextEntries.find(entry => entry.language.name == "en");
+              const flavorTextEntry = flavorTextEntries.find(entry => entry.language.name === "en");
               return {
                 name: element.name,
                 type1: element.types[0].type.name,
