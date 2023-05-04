@@ -74,8 +74,6 @@ function MonoTypeTeamBuilder() {
                   arrayOfRandoms.push(tempRandom);
               }
             }
-              
-            console.log("array of randoms", arrayOfRandoms);
 
             const promises = arrayOfRandoms.map(async (element) => {
               const speciesResponse = await axios.get(`${element.species.url}`);

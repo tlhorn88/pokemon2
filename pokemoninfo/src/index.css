@@ -1,4 +1,14 @@
+@import url('https://fonts.googleapis.com/css?family=Josefin+Sans');
+
+body {
+  font-family: 'Josefin Sans', cursive;
+  /* font-family: 'Playfair Display', serif; */
+
+}
+
 :root {
+  --font1: 'Playfair Display', serif;
+
   --color1: #4DA6B4;
   --color2: #66E2E6;
   --color3: #C35A6D;
