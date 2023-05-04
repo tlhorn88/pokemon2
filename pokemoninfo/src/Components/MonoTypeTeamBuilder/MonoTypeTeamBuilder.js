@@ -133,15 +133,15 @@ function MonoTypeTeamBuilder() {
       {randomPokemonArray && (
         <div>          
           <ul className="randomTeam">
-                    {randomPokemonArray.map((pokemon) => (
-                        <Card 
-                        name={pokemon.name}
-                        type1={pokemon.type1}
-                        type2={pokemon.type2}
-                        img={pokemon.imgUrl}
-                        flavorText={pokemon.flavorText}
-                        />
-                        ))}
+            {randomPokemonArray.map((pokemon) => (
+              <Card 
+              name={pokemon.name}
+              type1={pokemon.type1}
+              type2={pokemon.type2}
+              img={pokemon.imgUrl}
+              flavorText={pokemon.flavorText}
+              />
+            ))}
           </ul>
         </div>
       )}
