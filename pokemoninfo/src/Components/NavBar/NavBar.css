@@ -5,14 +5,17 @@
   width: 100%;
   background-color: var(--color5);
 }
-
-ul {
-  list-style-type: none;
+ul.navBarList {
   margin: 0;
   padding: 0;
+  list-style-type: none;
   overflow: hidden;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+  place-items: center;
+  flex-direction: row;
 }
-
 
 .navItem {
   float: left;

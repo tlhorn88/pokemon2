@@ -10,7 +10,7 @@ const links = [
 function NavBar() {
   return (
     <div className="navBar">
-      <ul>
+      <ul className="navBarList">
         {links.map((link) => {
           return (
             <li  key={link.text}>

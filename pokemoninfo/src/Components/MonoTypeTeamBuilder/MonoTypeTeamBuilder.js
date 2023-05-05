@@ -81,9 +81,9 @@ function MonoTypeTeamBuilder() {
                 name: element.name,
                 type1: element.types[0].type.name,
                 // checks to see if type2 exists.  if not, type2 = "N/A"
-                type2: element.types[1] ? element.types[1]?.type.name : "N/A",
+                type2: element.types[1] ? element.types[1]?.type.name : null,
                 imgUrl: element.sprites.other['official-artwork'].front_default,
-                flavorText: flavorTextEntry?.flavor_text
+                flavorText: flavorTextEntry ? flavorTextEntry.flavor_text : "Not enough is known about this pokémon yet.  Spend some time together to learn more about its quirks!"
               };
             })
 
@@ -129,7 +129,6 @@ function MonoTypeTeamBuilder() {
 
 {/* && operator only displays the following if variable is truthy */}
       {randomPokemonArray && (
-        <div>          
           <ul className="randomTeam">
             {randomPokemonArray.map((pokemon) => (
               <Card 
@@ -141,7 +140,6 @@ function MonoTypeTeamBuilder() {
               />
             ))}
           </ul>
-        </div>
       )}
 
     </div>
