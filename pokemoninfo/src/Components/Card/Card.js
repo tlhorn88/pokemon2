@@ -24,18 +24,18 @@ const Card = (props) => {
     }
 
     return (
-            <div className="card">
-                <div className="pokeName">
-                    <h1 className="title">{props.name.toUpperCase()}</h1>
-                </div>
-                <p className="colorText">{props.flavorText}</p>
-                <div className="typeArea">
-                    <h5 className={`type ${typeToClass[props.type1]}`}>{props.type1}</h5>
-                    <h5 className={`type ${typeToClass[props.type2]}`}>{props.type2}</h5>
-                </div>
-                <img className="image" alt="" src={(`${props.img}`)}
-                />
+        <div className="card">
+            <div className="pokeName">
+                <h1 className="title">{props.name.toUpperCase()}</h1>
             </div>
+            <p className="colorText">{props.flavorText}</p>
+            <div className="typeArea">
+                <h5 className={`type ${typeToClass[props.type1]}`}>{props.type1}</h5>
+                <h5 className={`type ${typeToClass[props.type2]}`}>{props.type2}</h5>
+            </div>
+            <img className="image" alt="" src={(`${props.img}`)}
+            />
+        </div>
         )
     }
 

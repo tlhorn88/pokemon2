@@ -25,7 +25,7 @@ function NameInput() {
         axios.get(pokeInfo.speciesUrl)
         .then (response => {
           let habitat = response.data.habitat.name;
-          changeHabitat(`Your pokemon likes to live in a ${habitat} setting!`)
+          changeHabitat(`Your pokémon likes to live in a ${habitat} setting!`)
         })
       })
   }, [displayName]);
@@ -46,7 +46,7 @@ function NameInput() {
 
         <form>
           <label>
-            Pokemon Name:
+          Pokémon Name: 
             <input
               type="text"
               name="name"

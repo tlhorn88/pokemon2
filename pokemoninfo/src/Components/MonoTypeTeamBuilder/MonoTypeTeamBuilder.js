@@ -37,9 +37,7 @@ function MonoTypeTeamBuilder() {
       axios.get(object.url)
         .then(response => {
           let receivedArrayOfAType = response.data.pokemon;
-
           let cleanedReceivedArrayOfAType = [];
-
           for (let i = 0; i < receivedArrayOfAType.length; i++) {
             if (receivedArrayOfAType[i].pokemon.name.includes('-') === false ) {
               cleanedReceivedArrayOfAType.push(receivedArrayOfAType[i])
@@ -97,10 +95,10 @@ function MonoTypeTeamBuilder() {
           .catch(error => {
             console.error(error);
           });
-        } else {
-          changeRandomPokemonArray(null);
-        }
-      }
+    } else {
+      changeRandomPokemonArray(null);
+    }
+  }
 
   return (
     <div className='cardContainer'>

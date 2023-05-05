@@ -1,0 +1,23 @@
+.aboutContainer {
+  display: flex-box;
+  flex-wrap: wrap;
+  /* justify-content: space-between; */
+  border-radius: 8px;
+  box-shadow: 0px 0px 8px var(--color2);
+  place-items: center;
+  min-height: 70vh;
+  background-color: var(--color6);
+  row-gap: 0;
+  padding: 10px;
+}
+
+.aboutItem {
+  text-align: center;
+  border-radius: 3px;
+  max-width: 25%;
+  min-width: 25%;
+  padding: 5px;
+  background-color: var(--poison);
+  box-shadow: 0px 0px 8px var(--poison2);
+  margin: 5px;
+}

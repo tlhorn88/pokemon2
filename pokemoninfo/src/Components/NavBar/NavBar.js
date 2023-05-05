@@ -3,8 +3,8 @@ import { NavLink } from "react-router-dom";
 
 const links = [
   { path: '/', text: 'About' },
-  { path: 'nameInput', text: 'NameInput'},
-  { path: 'monoTypeTeamBuilder', text: 'MonoTypeTeamBuilder'},
+  { path: 'nameInput', text: 'Pokémon Info'},
+  { path: 'monoTypeTeamBuilder', text: 'Type Team Builder'},
 ];
 
 function NavBar() {
@@ -21,6 +21,9 @@ function NavBar() {
             </li>
           )
         })}
+        <li>
+          LINK TO PORTFOLIO
+        </li>
       </ul>
     </div>
   )
