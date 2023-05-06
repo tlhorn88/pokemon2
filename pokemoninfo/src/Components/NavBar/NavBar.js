@@ -1,5 +1,5 @@
 import './NavBar.css';
-import { NavLink } from "react-router-dom";
+import { NavLink, Link } from "react-router-dom";
 
 const links = [
   { path: '/', text: 'About' },
@@ -22,7 +22,7 @@ function NavBar() {
           )
         })}
         <li>
-          LINK TO PORTFOLIO
+          <Link to="https://tabbyportfolio.netlify.app/" target="_blank">Portfolio</Link>
         </li>
       </ul>
     </div>
