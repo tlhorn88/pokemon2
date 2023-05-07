@@ -4,8 +4,6 @@ import NameInput from './Components/NameInput/NameInput';
 import MonoTypeTeamBuilder from './Components/MonoTypeTeamBuilder/MonoTypeTeamBuilder';
 import NoMatch from './Components/NoMatch/NoMatch';
 import Layout from './Components/Layout/Layout';
-
-
 import { Routes, Route } from 'react-router-dom';
 
 function App() {
