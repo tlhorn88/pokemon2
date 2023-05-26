@@ -22,7 +22,7 @@ function NavBar() {
           )
         })}
         <li>
-          <Link to="https://tabbyportfolio.netlify.app/" target="_blank">Portfolio</Link>
+          {/* <Link to="https://tabbyportfolio.netlify.app/" target="_blank">Portfolio</Link> */}
         </li>
       </ul>
     </div>

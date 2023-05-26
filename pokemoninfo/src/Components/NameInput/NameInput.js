@@ -8,6 +8,7 @@ function NameInput() {
   const [pokeName, changeName] = useState('');
   const [displayName, changeDisplayName] = useState();
   const [pokeInfo, changePokeInfo] = useState();
+  const [error, changeError] = useState(false);
 
   useEffect(() => {
     const pokeApiUrl = `https://pokeapi.co/api/v2/pokemon/${displayName}`;
@@ -22,12 +23,16 @@ function NameInput() {
           speciesUrl: response.data.species.url
         }
         changePokeInfo(pokeInfo);
+        changeError(false);
         axios.get(pokeInfo.speciesUrl)
         .then (response => {
           let habitat = response.data.habitat.name;
           changeHabitat(`Your pokémon likes to live in a ${habitat} setting!`)
         })
       })
+      .catch(error => {
+        changeError(true); // Set error state to true if API call fails
+      });
   }, [displayName]);
 
   const handleNameChange = (e) => {
@@ -37,6 +42,7 @@ function NameInput() {
   const handleSubmit = (e) => {
     e.preventDefault();
     changeDisplayName(pokeName);
+    changeError(false);
   }
 
   return (
@@ -57,7 +63,7 @@ function NameInput() {
           <input type="submit" value="Submit" onClick={handleSubmit} />
         </form>
 
-        {pokeInfo && (
+        {pokeInfo && !error && (
           <Card 
             name={pokeInfo.name}
             img={pokeInfo.pokePhoto}
@@ -65,6 +71,10 @@ function NameInput() {
             type1={pokeInfo.type1}
             type2={pokeInfo.type2}
             />
+        )}
+
+        {error && displayName && (
+          <h2>We're sorry.  There isn't a PokeMon named {displayName} yet.  Maybe try searching for Grimer?</h2>
         )}
       </div>
     </div>
