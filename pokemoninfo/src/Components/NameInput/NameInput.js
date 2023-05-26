@@ -12,26 +12,39 @@ function NameInput() {
 
   useEffect(() => {
     const pokeApiUrl = `https://pokeapi.co/api/v2/pokemon/${displayName}`;
-    axios.get(pokeApiUrl)
-      .then(response => {
+    axios
+      .get(pokeApiUrl)
+      .then((response) => {
         let pokeInfo = {
           name: response.data.name,
           type1: response.data.types[0].type.name,
-          pokePhoto: response.data.sprites.other['official-artwork'].front_default,
+          pokePhoto:
+            response.data.sprites.other['official-artwork'].front_default,
           // THIS ? CHECKS IF DATA TYPE EXISTS
           type2: response.data.types[1]?.type.name,
-          speciesUrl: response.data.species.url
-        }
+          speciesUrl: response.data.species.url,
+        };
         changePokeInfo(pokeInfo);
         changeError(false);
-        axios.get(pokeInfo.speciesUrl)
-        .then (response => {
+        axios.get(pokeInfo.speciesUrl).then((response) => {
           let habitat = response.data.habitat.name;
-          changeHabitat(`Your pokémon likes to live in a ${habitat} setting!`)
-        })
+
+          function startsWithVowel(habitat) {
+            return /[aeiou]/i.test(habitat[0]);
+          }
+          if (startsWithVowel(habitat) == true) {
+            changeHabitat(
+              `Your Pokémon likes to live in an ${habitat} setting!`
+            );
+          } else {
+            changeHabitat(
+              `Your Pokémon likes to live in a ${habitat} setting!`
+            );
+          }
+        });
       })
-      .catch(error => {
-        changeError(true); // Set error state to true if API call fails
+      .catch((error) => {
+        changeError(true);
       });
   }, [displayName]);
 
@@ -41,18 +54,16 @@ function NameInput() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    changeDisplayName(pokeName);
+    changeDisplayName(pokeName.toLowerCase());
     changeError(false);
-  }
+  };
 
   return (
     <div>
-
-      <div className='cardContainer'>
-
+      <div className="cardContainer">
         <form>
           <label>
-          Pokémon Name: 
+            Pokémon Name:
             <input
               type="text"
               name="name"
@@ -64,17 +75,20 @@ function NameInput() {
         </form>
 
         {pokeInfo && !error && (
-          <Card 
+          <Card
             name={pokeInfo.name}
             img={pokeInfo.pokePhoto}
             flavorText={pokeHabitat}
             type1={pokeInfo.type1}
             type2={pokeInfo.type2}
-            />
+          />
         )}
 
         {error && displayName && (
-          <h2>We're sorry.  There isn't a PokeMon named {displayName} yet.  Maybe try searching for Grimer?</h2>
+          <h2>
+            We're sorry. There isn't a Pokémon named {displayName} yet. Maybe
+            try searching for Grimer?
+          </h2>
         )}
       </div>
     </div>
