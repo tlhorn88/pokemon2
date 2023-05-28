@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import Card from '../Card/Card';
 import './MonoTypeTeamBuilder.css';
+import { array } from 'joi';
 
 function MonoTypeTeamBuilder() {
   const [typeArray, changeTypeArray] = useState([]);
@@ -18,6 +19,9 @@ function MonoTypeTeamBuilder() {
             url: types.url
           }
         });
+        arrayOfTypes.pop();
+        arrayOfTypes.pop();
+        console.log("array of types", arrayOfTypes);
         changeTypeArray(arrayOfTypes);
       })
       .catch(error => {
