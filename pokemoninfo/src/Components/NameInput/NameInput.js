@@ -101,7 +101,7 @@ function NameInput() {
 
         {error && displayName && (
           <h2>
-            We're sorry. There isn't a Pokémon named {displayName} yet. Maybe
+            We're sorry. There isn't a Pokémon named {displayName.charAt(0).toUpperCase() + displayName.slice(1)} yet. Maybe
             try searching for Grimer?
           </h2>
         )}
