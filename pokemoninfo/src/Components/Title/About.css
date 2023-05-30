@@ -26,8 +26,8 @@ ul.aboutList {
 .aboutItem {
   text-align: center;
   border-radius: 3px;
-  max-width: 25%;
-  min-width: 25%;
+  max-width: 17%;
+  min-width: 17%;
   padding: 5px;
   background-color: var(--poison);
   box-shadow: 0px 0px 8px var(--poison2);

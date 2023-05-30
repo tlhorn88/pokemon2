@@ -9,6 +9,7 @@ function NameInput() {
   const [displayName, changeDisplayName] = useState();
   const [pokeInfo, changePokeInfo] = useState();
   const [error, changeError] = useState(false);
+  const [isLoading, changeIsLoading] = useState(false);
 
   useEffect(() => {
     const pokeApiUrl = `https://pokeapi.co/api/v2/pokemon/${displayName}`;
@@ -42,9 +43,11 @@ function NameInput() {
             );
           }
         });
+        changeIsLoading(false);
       })
       .catch((error) => {
         changeError(true);
+        changeIsLoading(false);
       });
   }, [displayName]);
 
@@ -54,7 +57,17 @@ function NameInput() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    changeDisplayName(pokeName.toLowerCase());
+
+    const lowercaseInput = pokeName.toLowerCase();
+
+    if (lowercaseInput === displayName) {
+      // changeError(true);
+      return;
+    }
+
+    changeIsLoading(true);
+
+    changeDisplayName(lowercaseInput);
     changeError(false);
   };
 
@@ -74,7 +87,7 @@ function NameInput() {
           <input type="submit" value="Submit" onClick={handleSubmit} />
         </form>
 
-        {pokeInfo && !error && (
+        {pokeInfo && !isLoading && !error && (
           <Card
             name={pokeInfo.name}
             img={pokeInfo.pokePhoto}
@@ -83,6 +96,8 @@ function NameInput() {
             type2={pokeInfo.type2}
           />
         )}
+
+        {isLoading && <h2>Loading...</h2>}
 
         {error && displayName && (
           <h2>
